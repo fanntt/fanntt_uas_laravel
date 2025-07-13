@@ -31,6 +31,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
     // Route admin lainnya
+    Route::resource('admin/barang', App\Http\Controllers\BarangController::class);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
