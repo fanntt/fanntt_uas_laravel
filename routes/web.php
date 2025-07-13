@@ -3,11 +3,14 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PeminjamanController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Hapus atau ubah route ini jika tidak dipakai
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -31,13 +34,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
     // Route admin lainnya
-    Route::resource('admin/barang', App\Http\Controllers\BarangController::class);
+    Route::resource('barang', App\Http\Controllers\BarangController::class);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/homepage', function () {
-        return view('homepage');
-    })->name('homepage');
+    Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
+    // Route peminjaman barang user
+    Route::get('/peminjaman/{barang}/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman/{barang}', [PeminjamanController::class, 'store'])->name('peminjaman.store');
     // Route user lainnya
 });
 
