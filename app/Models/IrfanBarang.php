@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class IrfanBarang extends Model
 {
+    protected $fillable = [
+        'nama_barang', 'deskripsi', 'stok', 'kategori_id', 'ruangan_id',
+    ];
     public function kategori()
     {
         return $this->belongsTo(IrfanKategori::class, 'kategori_id');
